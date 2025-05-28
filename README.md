@@ -18,7 +18,7 @@ Aby uruchomić projekt, wykonaj następujące polecenia. Wejdź do katalogu z pr
 
 Testy
 ---
-Korzystamu z biblioteki PyTest a całość uruchamiamy w dedykowanym kontenerze. Aby to zrobić możemy skorzystać z następującej komendy:
+Korzystamy z biblioteki PyTest a całość uruchamiamy w dedykowanym kontenerze. Aby uruchomić testy, możemy skorzystać z następującej komendy:
 
 
 ```bash

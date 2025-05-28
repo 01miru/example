@@ -1,0 +1,15 @@
+services:
+  test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: django-tests
+    command: pytest
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+      - CELERY_BROKER_URL=redis://redis:6379/0

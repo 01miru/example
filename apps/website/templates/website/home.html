@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+</head>
+<body>
+Test
+
+<script>
+  const userId = {{ user.id }};
+  const socket = new WebSocket(`ws://${window.location.host}/ws/notifications/${userId}/`);
+
+  socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    alert(data.message + " Link: " + data.report_url);
+  }
+</script>
+</body>
+</html>

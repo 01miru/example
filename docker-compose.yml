@@ -1,0 +1,56 @@
+services:
+  django:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: example-django
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+      - ./media:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+
+  celery:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: example-celery
+    command: celery -A config worker -l info -c 1
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7
+    container_name: example-redis
+    ports:
+      - "6379:6379"
+
+  db:
+    image: postgres:15
+    container_name: example-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./Docker/db-init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
